@@ -30,7 +30,7 @@
             <table style="margin:20px auto 0; font-size:14pt; line-height:180%;">
               <tr><th style="text-align:right; padding-right:8px;">承办单位：</th><td>{{ conference.organizer }}</td></tr>
               <tr><th style="text-align:right; padding-right:8px;">协办单位：</th><td>{{ conference.coOrganizer }}</td></tr>
-              <tr><th style="text-align:right; padding-right:8px;">赞助单位：</th><td>{{ conference.sponsor }}</td></tr>
+              <!-- <tr><th style="text-align:right; padding-right:8px;">赞助单位：</th><td>{{ conference.sponsor }}</td></tr> -->
             </table>
           </div>
         </div>
@@ -97,10 +97,10 @@
                 </p>
 
                 <h1>赞助信息</h1>
-                <p class="lead" style="font-size:14pt;">
-                  赞助对我们会议的成功举办起着重要的作用。如果贵单位有兴趣赞助CS 2026，请电话联系或者邮件联系。CS2026的赞助分4个等级：
+                <p class="lead" style="text-indent: 2em; font-size:14pt;">
+                  赞助对我们会议的成功举办起着重要的作用。如果贵单位有兴趣赞助CS 2026，请电话联系或者邮件联系。CS2026的赞助分4个等级：其他：赞助对我们会议的成功举办起着重要的作用，如果贵单位有兴趣赞助CS 2026，请电话联系或者邮件联系。
                 </p>
-                <ul class="lead" style="font-size:14pt;">
+                <!-- <ul class="lead" style="font-size:14pt;">
                   <li v-for="s in sponsorLevels" :key="s.name"><strong>{{ s.name }}</strong>：{{ s.amount }}；</li>
                 </ul>
                 <p class="lead" style="font-size:14pt;">
@@ -108,7 +108,7 @@
                 </p>
                 <ol class="lead" style="font-size:14pt;">
                   <li v-for="(b, idx) in sponsorBenefits" :key="idx">{{ b }}</li>
-                </ol>
+                </ol> -->
               </div>
 
               <!-- ===== KEYNOTES ===== -->
@@ -223,7 +223,7 @@
                   <!-- 5月16日 -->
                   <tr>
                     <td ></td>
-                    <td colspan="3">开幕式与合影</td><td rowspan="2" style="width:12.5%" colspan="2">马旭（曲阜师范大学教授</td>
+                    <td colspan="3">开幕式与合影</td><td rowspan="2" style="width:12.5%" colspan="2">马旭（曲阜师范大学教授）</td>
                   </tr>
                   <tr>
                     <td rowspan="16">5月16日</td>
@@ -232,23 +232,23 @@
                   <tr>
                     <td colspan="3">特邀报告环节</td><td colspan="2"></td>
                   </tr>
-                  <tr><td>9:00-9:40</td><td colspan="2">杨珉（复旦大学 教授）主讲《移动应用中的身份混淆与API访问控制安全》</td><td colspan="2" rowspan="2">张方国（中山大学教授）</td></tr>
+                  <tr><td>9:00-9:40</td><td colspan="2">杨珉（复旦大学 教授）主讲《前沿AI系统安全风险评测与治理》</td><td colspan="2" rowspan="2">张方国（中山大学教授）</td></tr>
                   <tr><td>09:00-10:20</td><td colspan="2">操晓春（中山大学 教授）主讲《可信可解释人工智能》</td></tr>
                   <tr><td>10:20-10:35</td><td colspan="2">茶歇</td><td colspan="2"></td></tr>
-                  <tr><td>10:35-11:15</td><td colspan="2">何德彪（武汉大学 教授）主讲《区块链系统中的隐私保护》</td><td colspan="2" rowspan="2">黄欣沂（暨南大学 教授）</td></tr>
+                  <tr><td>10:35-11:15</td><td colspan="2">何德彪（武汉大学 教授）主讲（题目待定）</td><td colspan="2" rowspan="2">黄欣沂（暨南大学 教授）</td></tr>
                   <tr><td>11:15-11:55</td><td colspan="2">程光（东南大学 教授）主讲《网络流量智能精细化感知分类》</td></tr>
                   <tr><td>11:55-13:30</td><td colspan="2">午餐</td><td colspan="2"></td></tr>
                   <tr><td>14:00-14:40</td><td colspan="2">董长宇（广州大学 教授）主讲《从中心化到分布式差分隐私》</td><td colspan="2" rowspan="3">沈剑（浙江理工大学 教授）</td></tr>
                   <tr><td>14:40-15:20</td><td colspan="2">朱天清（澳门城市大学 教授）主讲《人工智能跨境安全：新环境下的新挑战》</td></tr>
                   <tr><td>15:20-16:00</td><td colspan="2">杨国民（新加坡管理大学 副教授）主讲《Privacy Enhancing Technologies for Mobile and Decentralized Applications》</td></tr>
                   <tr><td>16:00-16:15</td><td colspan="2">茶歇</td><td colspan="2"></td></tr>
-                  <tr><td>16:15-16:55</td><td colspan="2">翟季冬（清华大学 教授）主讲《高性能计算系统中的程序性能分析与优化》</td><td colspan="2" rowspan="3">高飞（北京邮电大学 教授）</td></tr>
+                  <tr><td>16:15-16:55</td><td colspan="2">翟季冬（清华大学 教授）主讲《赤兔：大模型推理系统》</td><td colspan="2" rowspan="3">高飞（北京邮电大学 教授）</td></tr>
                   <tr><td>16:55-17:35</td><td colspan="2">张伟哲（哈尔滨工业大学 教授）主讲《隐私保护下的大数据分析系统关键技术与应用》</td></tr>
                   <tr><td>17:35-18:05</td><td colspan="2">关振宇（北京航空航天大学 教授）主讲《密态数据要素流通关键技术研究》</td></tr>
                   <tr><td>19:00-21:30</td><td colspan="2">中式晚宴</td><td colspan="2"></td></tr>
                   <!-- 5月17日 -->
                   <tr>
-                    <td rowspan="9">5月17日<br>星期日</td>
+                    <td rowspan="9">5月17日</td>
                   <tr>
                     <td colspan="3">特邀报告环节</td>
                   </tr>
