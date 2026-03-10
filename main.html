@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="format-detection" content="telephone=no">
+  <title>CS 2026 — The 10th International Workshop on Cyber Security</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/custom.css" rel="stylesheet">
+  <style>[v-cloak] { display: none; }.bio-panel .section-content p.lead {white-space: pre-line;}</style>
+</head>
+<body>
+
+<div id="app" v-cloak>
+  <div class="site-background"></div>
+  <div class="site-wrapper">
+    <div class="site-wrapper-inner">
+      <div class="site-container">
+
+        <!-- ========== Hero / Jumbotron ========== -->
+        <div class="site-section">
+          <div class="jumbotron">
+            <h1>{{ conference.titleCn }}</h1>
+            <p style="font-size:16pt; line-height:160%; letter-spacing:0.5px;">
+              <span style="font-size:19pt; font-family:'Inter','Times New Roman',serif; font-weight:500;">{{ conference.titleEn }}</span>
+              <br>
+              <span style="opacity:0.7;">{{ conference.location }}<span class="hidden-xs" style="color:rgba(255,255,255,0.4);"> | </span><br class="visible-xs">{{ conference.date }}</span>
+            </p>
+            <table style="margin:20px auto 0; font-size:14pt; line-height:180%;">
+              <tr><th style="text-align:right; padding-right:8px;">承办单位：</th><td>{{ conference.organizer }}</td></tr>
+              <tr><th style="text-align:right; padding-right:8px;">协办单位：</th><td>{{ conference.coOrganizer }}</td></tr>
+              <tr><th style="text-align:right; padding-right:8px;">赞助单位：</th><td>{{ conference.sponsor }}</td></tr>
+            </table>
+          </div>
+        </div>
+
+        <!-- ========== Navigation ========== -->
+        <div class="site-section">
+          <div class="mastnav">
+            <ul class="nav mastnav-toggle">
+              <li><a href="#" @click.prevent="toggleMobileMenu" id="toggle">{{ mobileMenuLabel }}</a></li>
+            </ul>
+          </div>
+          <div class="mastnav" id="site-menu">
+            <ul class="nav mastnav-nav" v-show="mobileMenuOpen || !isMobileWidth">
+              <li v-for="nav in navigation" :key="nav.id" :class="{ active: activeTab === nav.id }">
+                <a href="#" @click.prevent="switchTab(nav.id)" class="jump-page">{{ nav.label }}</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- ========== Carousel ========== -->
+        <div class="site-section hidden-xs">
+          <div class="carousel slide mastslide" @mouseenter="stopCarousel" @mouseleave="startCarousel">
+            <ol class="carousel-indicators hidden-xs">
+              <li v-for="(img, idx) in carouselImages" :key="idx"
+                  :class="{ active: activeSlide === idx }"
+                  @click="goToSlide(idx)" style="cursor:pointer;"></li>
+            </ol>
+            <div class="carousel-inner" role="listbox" style="min-width:768px;">
+              <div v-for="(img, idx) in carouselImages" :key="idx"
+                   class="item" :class="{ active: activeSlide === idx }">
+                <img :src="img" alt="...">
+              </div>
+            </div>
+            <a class="left carousel-control" role="button" @click.prevent="prevSlide" style="cursor:pointer;"></a>
+            <a class="right carousel-control" role="button" @click.prevent="nextSlide" style="cursor:pointer;"></a>
+          </div>
+        </div>
+
+        <!-- ========== Main Content ========== -->
+        <div class="site-section">
+          <div class="mastbody">
+            <div id="tabLocation" class="tab-content">
+
+              <!-- ===== HOME ===== -->
+              <div v-if="activeTab === 'home'" class="tab-pane active" id="home">
+                <h1 style="text-align:center;">CS 2026 简介</h1>
+                <p v-for="(text, idx) in introductions" :key="idx"
+                   class="lead" style="text-indent: 2em; font-size:14pt;">{{ text }}</p>
+
+                <h1>会议信息</h1>
+                <p class="lead" style="line-height:220%; font-size:14pt;">
+                  <template v-for="(info, idx) in meetingInfo" :key="idx">
+                    {{ info.label }}：<span class="label label-danger">{{ info.value }}</span><br>
+                  </template>
+                </p>
+
+                <h1>会议联系人员</h1>
+                <p class="lead" style="font-size:14pt; line-height:180%;">
+                  <template v-for="(c, idx) in contacts" :key="idx">
+                    {{ c.name }}&ensp;电话号码: {{ c.phone }}<br>
+                  </template>
+                  会务邮箱：<span>{{ contactEmail }}</span>
+                </p>
+
+                <h1>赞助信息</h1>
+                <p class="lead" style="font-size:14pt;">
+                  赞助对我们会议的成功举办起着重要的作用。如果贵单位有兴趣赞助CS 2026，请电话联系或者邮件联系。CS2026的赞助分4个等级：
+                </p>
+                <ul class="lead" style="font-size:14pt;">
+                  <li v-for="s in sponsorLevels" :key="s.name"><strong>{{ s.name }}</strong>：{{ s.amount }}；</li>
+                </ul>
+                <p class="lead" style="font-size:14pt;">
+                  赞助方式为支付现金或者转账，或等值礼品、会务支出等。<br>赞助商将获得以下权益：
+                </p>
+                <ol class="lead" style="font-size:14pt;">
+                  <li v-for="(b, idx) in sponsorBenefits" :key="idx">{{ b }}</li>
+                </ol>
+              </div>
+
+              <!-- ===== KEYNOTES ===== -->
+              <div v-if="activeTab === 'keynotes'" class="tab-pane active" id="keynotes">
+                <h1 style="text-align:center;">特邀报告嘉宾</h1>
+                <h1 style="text-align:center;font-size:14pt;">(排名不分先后)</h1>
+
+                <template v-for="speaker in keynoteSpeakers" :key="speaker.id">
+                  <div class="row keynote-row">
+                    <div class="col-xs-12 col-sm-4 col-md-3 vcenter" style="width:20%;">
+                      <div class="text-center" style="width:100%;"><br>
+                        <img :src="speaker.image" class="img-speaker">
+                      </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-8 col-md-9 vcenter" style="width:70%; min-height:150px;">
+                      <strong style="font-size:16pt; color:#337ab7;">报告题目：{{ speaker.title }}</strong>
+                      <br><p class="lead" style="margin-bottom: 5px;font-size:18pt;">
+                        {{ speaker.displayName }}
+                        <br>{{ speaker.university }}
+                        <a class="btn btn-default btn-custom" role="button" @click="toggleBio(speaker.id)">查看详情</a>
+                      </p>
+                    </div>
+                  </div>
+                  
+                  <!-- 可折叠章节面板 -->
+                  <div v-if="isBioExpanded(speaker.id)" class="bio-panel">
+                    <!-- 个人简历章节 -->
+                    <div class="section">
+                      <div class="section-header" @click="toggleBioSection(speaker.id)" style="cursor:pointer;">
+                        <h4 style="color:#337ab7; margin:0; padding:10px 15px; background:#4d98a7; border-radius:5px 5px 0 0;">
+                          📋 个人简历
+                          <span style="float:right; font-size:12pt; color:#666;">
+                            {{ isBioSectionExpanded(speaker.id) ? '▼ 收起' : '▶ 展开' }}
+                          </span>
+                        </h4>
+                      </div>
+                      <div v-if="isBioSectionExpanded(speaker.id)" class="section-content" style="padding:15px; border:1px solid #4d98a7; border-top:none; border-radius:0 0 5px 5px;">
+                        <p class="lead" style="font-size:14pt; line-height:1.6; margin:0;">{{ speaker.bio }}</p>
+                      </div>
+                    </div>
+                    
+                    <!-- 报告摘要章节 -->
+                    <div class="section" style="margin-top:15px;">
+                      <div class="section-header" @click="toggleAbstractSection(speaker.id)" style="cursor:pointer;">
+                        <h4 style="color:#337ab7; margin:0; padding:10px 15px; background:#4d98a7; border-radius:5px 5px 0 0;">
+                          📝 报告摘要
+                          <span style="float:right; font-size:12pt; color:#666;">
+                            {{ isAbstractSectionExpanded(speaker.id) ? '▼ 收起' : '▶ 展开' }}
+                          </span>
+                        </h4>
+                      </div>
+                      <div v-if="isAbstractSectionExpanded(speaker.id)" class="section-content" style="padding:15px; border:1px solid #4d98a7; border-top:none; border-radius:0 0 5px 5px;">
+                        <p class="lead" style="font-size:14pt; line-height:1.6; margin:0;">{{ speaker.abstract }}</p>
+                      </div>
+                    </div>
+                  </div>
+                </template>
+
+                <h1 style="text-align:center;">特邀嘉宾</h1>
+                <h1 style="text-align:center;font-size:14pt;">(排名不分先后)</h1>
+
+                <template v-for="speaker in guestSpeakers" :key="speaker.id">
+                  <div class="row keynote-row">
+                    <div class="col-xs-12 col-sm-4 col-md-3 vcenter" style="width:20%;">
+                      <div class="text-center" style="width:100%;"><br>
+                        <img :src="speaker.image" class="img-speaker">
+                      </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-8 col-md-9 vcenter" style="width:70%; min-height:150px;">
+                      <p class="lead" style="margin-bottom: 5px;font-size:18pt;">
+                        {{ speaker.displayName }}
+                        <br>{{ speaker.university }}
+                        <a class="btn btn-default btn-custom" role="button" @click="toggleBio(speaker.id)">查看详情</a>
+                      </p>
+                    </div>
+                  </div>
+                  
+                  <!-- 可折叠章节面板（特邀嘉宾只有个人简历） -->
+                  <div v-if="isBioExpanded(speaker.id)" class="bio-panel">
+                    <!-- 个人简历章节 -->
+                    <div class="section">
+                      <div class="section-header" @click="toggleBioSection(speaker.id)" style="cursor:pointer;">
+                        <h4 style="color:#337ab7; margin:0; padding:10px 15px; background:#4d98a7; border-radius:5px 5px 0 0;">
+                          📋 个人简历
+                          <span style="float:right; font-size:12pt; color:#666;">
+                            {{ isBioSectionExpanded(speaker.id) ? '▼ 收起' : '▶ 展开' }}
+                          </span>
+                        </h4>
+                      </div>
+                      <div v-if="isBioSectionExpanded(speaker.id)" class="section-content" style="padding:15px; border:1px solid #4d98a7; border-top:none; border-radius:0 0 5px 5px;">
+                        <p class="lead" style="font-size:14pt; line-height:1.6; margin:0;">{{ speaker.bio }}</p>
+                      </div>
+                    </div>
+                  </div>
+                </template>
+              </div>
+
+              <!-- ===== PROGRAM ===== -->
+              <div v-if="activeTab === 'program'" class="tab-pane active" id="program" style="text-align:center;">
+                <br>
+                <h1>第十届网络空间安全国际研讨会日程表</h1><br>
+                <table style="width:90%;margin:auto;" class="lead table-bordered table-sche">
+                  <tr><th colspan="6">CS 2026会议日程</th></tr>
+                  <tr>
+                    <th style="width:12.5%;">日期</th><th style="width:12.5%;">时间</th>
+                    <th colspan="2">议程</th><th style="width:12.5%;" colspan="2">主持人</th>
+                  </tr>
+                  <tr>
+                    <td>5月15日</td><td>下午</td>
+                    <td colspan="2">会前注册</td><td colspan="2"></td>
+                  </tr>
+                  <!-- 5月16日 -->
+                  <tr>
+                    <td ></td>
+                    <td colspan="3">开幕式与合影</td><td rowspan="2" style="width:12.5%" colspan="2">马旭（曲阜师范大学教授</td>
+                  </tr>
+                  <tr>
+                    <td rowspan="16">5月16日</td>
+                    <td>8:30-9:00</td><td colspan="2">开幕致辞</td>
+                  </tr>
+                  <tr>
+                    <td colspan="3">特邀报告环节</td><td colspan="2"></td>
+                  </tr>
+                  <tr><td>9:00-9:40</td><td colspan="2">杨珉（复旦大学 教授）主讲《移动应用中的身份混淆与API访问控制安全》</td><td colspan="2" rowspan="2">张方国（中山大学教授）</td></tr>
+                  <tr><td>09:00-10:20</td><td colspan="2">操晓春（中山大学 教授）主讲《可信可解释人工智能》</td></tr>
+                  <tr><td>10:20-10:35</td><td colspan="2">茶歇</td><td colspan="2"></td></tr>
+                  <tr><td>10:35-11:15</td><td colspan="2">何德彪（武汉大学 教授）主讲《区块链系统中的隐私保护》</td><td colspan="2" rowspan="2">黄欣沂（暨南大学 教授）</td></tr>
+                  <tr><td>11:15-11:55</td><td colspan="2">程光（东南大学 教授）主讲《网络流量智能精细化感知分类》</td></tr>
+                  <tr><td>11:55-13:30</td><td colspan="2">午餐</td><td colspan="2"></td></tr>
+                  <tr><td>14:00-14:40</td><td colspan="2">董长宇（广州大学 教授）主讲《从中心化到分布式差分隐私》</td><td colspan="2" rowspan="3">沈剑（浙江理工大学 教授）</td></tr>
+                  <tr><td>14:40-15:20</td><td colspan="2">朱天清（澳门城市大学 教授）主讲《人工智能跨境安全：新环境下的新挑战》</td></tr>
+                  <tr><td>15:20-16:00</td><td colspan="2">杨国民（新加坡管理大学 副教授）主讲《Privacy Enhancing Technologies for Mobile and Decentralized Applications》</td></tr>
+                  <tr><td>16:00-16:15</td><td colspan="2">茶歇</td><td colspan="2"></td></tr>
+                  <tr><td>16:15-16:55</td><td colspan="2">翟季冬（清华大学 教授）主讲《高性能计算系统中的程序性能分析与优化》</td><td colspan="2" rowspan="3">高飞（北京邮电大学 教授）</td></tr>
+                  <tr><td>16:55-17:35</td><td colspan="2">张伟哲（哈尔滨工业大学 教授）主讲《隐私保护下的大数据分析系统关键技术与应用》</td></tr>
+                  <tr><td>17:35-18:05</td><td colspan="2">关振宇（北京航空航天大学 教授）主讲《密态数据要素流通关键技术研究》</td></tr>
+                  <tr><td>19:00-21:30</td><td colspan="2">中式晚宴</td><td colspan="2"></td></tr>
+                  <!-- 5月17日 -->
+                  <tr>
+                    <td rowspan="9">5月17日<br>星期日</td>
+                  <tr>
+                    <td colspan="3">特邀报告环节</td>
+                  </tr>
+                    <td>08:30-09:10</td><td colspan="2">华中科技大学（邓贤君 教授）主讲《智能工业物联网长时序数据可靠感知与安全计算：现状、挑战与趋势》</td></td><td rowspan="2">刘哲理（南开大学 教授）</td>
+                  </tr>
+                  <tr><td>09:10-09:50</td><td colspan="2">胡鹏飞（山东大学 教授）主讲《具身智能感知安全》</td></tr>
+                  <tr><td>09:50-10:05</td><td colspan="2">茶歇</td><td colspan="2"></td colspan="2"></tr>
+                  <tr><td>10:05-10:45</td><td colspan="2">沈蒙（北京理工大学 教授）主讲《面向图像分类系统的对抗样本生成与检测技术》</td><td colspan="2" rowspan="3">张振峰（中国科学院软件研究所 副总工程师）</td></tr>
+                  <tr><td>10:45-11:25</td><td colspan="2">张超（清华大学 副教授）主讲《软件漏洞挖掘与智能化攻防技术》</td></tr>
+                  <tr><td>11:25-12:05</td><td colspan="2">张锋巍（南方科技大学 研究员）主讲《可信执行环境与系统架构安全技术》</td></tr>
+                  <tr><td>12:05-14:00</td><td colspan="2">午餐</td><td colspan="2"></td>
+                </table>
+              </div>
+
+              <!-- ===== REGISTRATION ===== -->
+              <div v-if="activeTab === 'registration'" class="tab-pane active" id="registration">
+                <br>
+                <h3 style="text-align:center;">注册费用</h3>
+                <table class="lead table-bordered table-sche" style="width:80%; margin:auto;">
+                  <tr class="lead"><th>注册类别</th><th>注册金额</th></tr>
+                  <tr v-for="fee in registration.fees" :key="fee.category" class="lead">
+                    <td>{{ fee.category }}</td><td>{{ fee.amount }}</td>
+                  </tr>
+                </table>
+                <br><br>
+                <h3 style="text-align:center;">缴费方式</h3>
+                <table class="table table-bordered table-program" style="width:80%; margin:auto;">
+                  <tr v-for="p in registration.payment" :key="p.label" class="lead">
+                    <td>{{ p.label }}</td><td>{{ p.value }}</td>
+                  </tr>
+                  <tr class="lead"><td colspan="2" style="border-color:transparent;">{{ registration.cardNote }}</td></tr>
+                </table>
+                <br>
+                <span style="font-size:14pt;">&ensp;&ensp;<span class="label label-danger">{{ registration.receiptNotice }}</span></span>
+                <br><span style="font-size:16pt;">&ensp;&ensp;{{ registration.receiptInstruction }}</span><br>
+                <a :href="registration.receiptLink" download>&ensp;&ensp;<u>回执单下载链接</u></a>
+              </div>
+
+              <!-- ===== COMMITTEES ===== -->
+              <div v-if="activeTab === 'committees'" class="tab-pane active" id="committees">
+                <h1 style="text-align:center;">会议委员会成员</h1>
+                <template v-for="(group, key) in committees" :key="key">
+                  <h1 style="text-align:center;">{{ group.title }}</h1>
+                  <div style="text-align:center;">
+                    <table style="margin:auto;">
+                      <tr>
+                        <template v-for="(member, idx) in group.members" :key="member.name">
+                          <th v-if="idx > 0">&emsp;&emsp;</th>
+                          <th>
+                            <td style="text-align:center;">
+                              <img :src="member.image" class="img-committee">
+                              <br><p class="lead" style="font-size:14pt;">{{ member.name }}<br>{{ member.university }}</p>
+                            </td>
+                          </th>
+                        </template>
+                      </tr>
+                    </table>
+                  </div>
+                  <br><br>
+                </template>
+              </div>
+
+              <!-- ===== VENUE ===== -->
+              <div v-if="activeTab === 'venue'" class="tab-pane active" id="venue" style="font-size:14pt;">
+                <h1>会议地点</h1>
+                <p class="lead" style="text-indent: 2em;">
+                  {{ venue.description }}
+                  <br><br>
+                  <span style="font-size:14pt;"><strong>会议酒店:</strong>{{ venue.hotelName }}</span>
+                  <br><span style="font-size:14pt;"><strong>酒店地址:</strong> {{ venue.address }}</span>
+                </p>
+                <p class="lead">
+                  <strong>房间价格:</strong> {{ venue.roomPrice }}
+                  <br><strong>酒店电话:</strong> {{ venue.phone }}
+                </p>
+                <h1>酒店位置：<a :href="venue.mapUrl" target="_blank" rel="noopener">百度地图</a></h1>
+                <div class="row gallery">
+                  <div style="text-align:center;">
+                    <img :src="venue.mapImage" class="img-committeer" style="background-color:rgba(0,0,0,0);height:300px;width:600px;">
+                  </div><br><br>
+                </div>
+                <p class="lead"><strong>其它酒店:</strong> {{ venue.otherHotels }}</p>
+              </div>
+
+              <!-- ===== DOWNLOAD ===== -->
+              <div v-if="activeTab === 'download'" class="tab-pane active" id="download" style="text-align:center;">
+                <h1>会议文件下载</h1>
+                <template v-for="d in downloads" :key="d.link">
+                  <h3>{{ d.title }}</h3>
+                  <a :href="d.link" download><u>{{ d.text }}</u></a>
+                </template>
+                <br><br><br>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- ========== Footer Logos ========== -->
+          <div style="text-align:center; margin-top:20px;">
+            <table style="margin:auto;">
+              <tr>
+                <template v-for="(logo, idx) in footerLogos" :key="idx">
+                  <th v-if="idx > 0">&ensp;&ensp;</th>
+                  <th><img :src="logo" style="width:100px;height:100px;background-color:rgba(0,0,0,0);"></th>
+                </template>
+              </tr>
+            </table>
+          </div>
+          <br>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Bottom Navigation -->
+  <nav class="mobile-bottom-nav" v-show="isMobileWidth">
+    <a href="#" @click.prevent="switchTab('home')" :class="{ active: activeTab === 'home' }">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      <span>主页</span>
+    </a>
+    <a href="#" @click.prevent="switchTab('keynotes')" :class="{ active: activeTab === 'keynotes' }">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <span>嘉宾</span>
+    </a>
+    <a href="#" @click.prevent="switchTab('program')" :class="{ active: activeTab === 'program' }">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      <span>日程</span>
+    </a>
+    <a href="#" @click.prevent="switchTab('registration')" :class="{ active: activeTab === 'registration' }">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+      <span>注册</span>
+    </a>
+    <a href="#" @click.prevent="showMoreMenu" :class="{ active: mobileMenuOpen }">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+      <span>更多</span>
+    </a>
+  </nav>
+</div>
+
+<!-- Vue 3 CDN + App -->
+<script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
