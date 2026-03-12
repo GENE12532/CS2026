@@ -188,7 +188,7 @@ const CS2026_DATA = {
     },
     {
       id: "zhangfengwei",
-      displayName: "张锋巍 副教授",
+      displayName: "张锋巍 教授",
       university: "南方科技大学",
       image: "img/zfw.jpg",
       title: "AI加速器可信执行环境研究",
